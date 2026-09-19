@@ -1,0 +1,40 @@
+project_id,project_name,budget
+P001,Alpha Platform Rebuild,120000
+P002,Data Warehouse Migration,85000
+P003,Customer Portal v2,60000
+P004,Internal Analytics Dashboard,45000
+P005,Mobile App Launch,200000
+P006,Legacy System Decommission,30000
+P007,ML Forecasting Pipeline,95000
+P008,API Gateway Consolidation,55000-60000
+P009,Compliance Reporting Tool,40000
+P010,Data Catalogue Implementation,70000
+P001,Alpha Platform Rebuild,120000
+P011,Cloud Cost Optimisation,25000
+P012,Real-Time Alerting System,88000
+P013,,15000
+,Unnamed Initiative,50000
+P014,Security Audit & Remediation,62000
+P015,Self-Serve BI Rollout,47000
+P016,Vendor Data Integration,33000
+P017,HR System Upgrade,91000
+P018,Event Streaming Platform,110000
+P007,ML Forecasting Pipeline,95000
+P019,Data Quality Framework,-5000
+P020,Product Recommendation Engine,130000
+P021,Infrastructure Monitoring,42000
+P022,Partner API Programme,76000
+P023,Data Mesh Pilot,58000
+P024,CRM Data Sync,29000
+P025,Search Relevance Improvement,84000
+P026,Experimentation Platform,67000
+P027,Regulatory Reporting Automation,53000
+P028,Data Retention & Archival,21000
+P029,Observability Stack,39000
+P030,Feature Store Build-Out,115000
+P026,Experimentation Platform,67000
+P031,Customer Churn Model,78000
+P032,Supply Chain Analytics,
+P033,Internal Knowledge Base,18000
+P034,SLA Monitoring Dashboard,44000
+P035,Cross-Sell Recommendation,92000
