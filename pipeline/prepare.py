@@ -10,6 +10,11 @@ COLUMNS = {
     "timesheets": ["employee_id", "project_id", "date", "hours"],
 }
 
+HOUR_WORDS = {
+    "one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
+}
+
 
 def parse_dates(values):
     result = pd.Series(pd.NaT, index=values.index, dtype="datetime64[ns]")
@@ -49,6 +54,8 @@ def prepare(input_dir):
             frame[column] = frame[column].str.strip().replace("", pd.NA)
         prepared[table] = frame
     prepared["projects"]["budget_numeric"] = pd.to_numeric(prepared["projects"]["budget"], errors="coerce")
-    prepared["timesheets"]["hours_numeric"] = pd.to_numeric(prepared["timesheets"]["hours"], errors="coerce")
+    hours = prepared["timesheets"]["hours"].str.lower()
+    numeric_hours = pd.to_numeric(hours, errors="coerce")
+    prepared["timesheets"]["hours_numeric"] = numeric_hours.fillna(hours.map(HOUR_WORDS))
     prepared["timesheets"]["work_date"] = parse_dates(prepared["timesheets"]["date"])
     return raw, prepared
