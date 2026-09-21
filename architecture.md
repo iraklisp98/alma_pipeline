@@ -45,7 +45,8 @@ Run the implementation from the repository root with `python -m pipeline.run`. U
 | Prepared | `prepare.py` | Trim surrounding whitespace, normalize empty values to null, and parse dates and numbers on copies. |
 | Validated | `validate.py` | Validate dimensions first, then timesheets. Return clean candidates, review/rejected records and row-level issues. |
 | Transformed | `transform.py` | Select clean columns and calculate accepted hours by project and employee. |
-| Output | `run.py` | Check row accounting and totals, then write the CSV outputs. |
+| Verification | `validate.py` | After transformation, `verify_outputs()` checks row accounting, clean keys, references and totals. |
+| Output | `run.py` | Coordinate the stages and write the verified CSV outputs. |
 
 Pass DataFrames explicitly between functions. Keep validation separate from file writing. A missing file or unexpected CSV schema stops the run with a clear error; a bad business record is reported without stopping other records from being processed.
 
@@ -72,7 +73,7 @@ Incomplete descriptive fields or uncertain budgets do not make an otherwise vali
 ### Timesheets
 
 - Parse the observed formats explicitly: `DD/MM/YYYY`, `YYYY-MM-DD`, and English `DD-Mon-YY`. Assume slash dates are day-first and two-digit years mean 2000–2099. Reject missing or invalid dates.
-- Require finite numeric hours with `0 < hours <= 24`. Reject missing hours, text such as `seven` or `not_a_number`, and out-of-range values. Do not impute hours.
+- Trim and lowercase hours for exact matching against a dictionary mapping `one` through `ten` to 1–10. Then require finite numeric hours with `0 < hours <= 24`. Reject missing hours, other text such as `not_a_number` or `seven hours`, and out-of-range values. Preserve raw values; do not guess other text.
 - Reject references to IDs absent from the source dimensions. Hold references to conflicting, unresolved dimension IDs for review.
 - Provisionally assume one entry per employee/project/day. Remove identical parsed copies; hold conflicting hours at that grain for review. Confirm this assumption in the README.
 - Check total hours per employee/day across projects after removing invalid rows and duplicates. If an employee/day has unresolved grain conflicts, hold that day's remaining entries for review rather than calculate a definitive total. Otherwise reject all contributing entries when the total exceeds 24 hours.
@@ -154,15 +155,5 @@ Keep verification focused:
 ## README and time budget
 
 The README should explain installation, the run command, stages, output files, rules and assumptions, rerun behavior, and a short future-improvements section. Explicitly call out the date interpretation, timesheet grain, positive-hours assumption, and nullable dimension policy.
-
-A rough five-hour budget, including exploration:
-
-| Work | Time |
-|---|---:|
-| Explore data and choose rules | 60 minutes |
-| Implement preparation and validation | 100 minutes |
-| Transform and export | 40 minutes |
-| Schema and diagrams | 30 minutes |
-| Tests, README and final review | 70 minutes |
 
 With more time, add a correction workflow, atomic output publication, stable source entry IDs and incremental/database loading. Mention these as extensions rather than implementing them for the assessment.
