@@ -4,7 +4,7 @@ A small pandas pipeline converts the supplied employee, project and timesheet CS
 
 ## Run
 
-Python 3.10+ is required. From the repository root:
+Python 3.10+ is required. From the repository root: 
 
 ```bash
 python3 -m venv .venv
