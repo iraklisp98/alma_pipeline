@@ -128,8 +128,8 @@ Export dates as `YYYY-MM-DD`, sort by stable keys, and check that both summaries
 
 | Table | Fields and constraints |
 |---|---|
-| `employees` | `employee_id TEXT PRIMARY KEY`, `name TEXT NULL`, `role TEXT NULL`. |
-| `projects` | `project_id TEXT PRIMARY KEY`, `project_name TEXT NULL`, `budget NUMERIC NULL CHECK (budget >= 0)`. |
+| `employees` | `employee_id TEXT PRIMARY KEY NOT NULL`, `name TEXT NULL`, `role TEXT NULL`. |
+| `projects` | `project_id TEXT PRIMARY KEY NOT NULL`, `project_name TEXT NULL`, `budget NUMERIC NULL CHECK (budget >= 0)`. |
 | `timesheets` | `employee_id TEXT NOT NULL REFERENCES employees(employee_id)`, `project_id TEXT NOT NULL REFERENCES projects(project_id)`, `work_date TEXT NOT NULL (ISO date)`, `hours NUMERIC NOT NULL CHECK (hours > 0 AND hours <= 24)`. Composite primary key: `(employee_id, project_id, work_date)`. |
 
 Nullable descriptive fields and budget represent known data-quality gaps; the issue report records why they are missing. Require valid ID formats and reject nonfinite numeric values in the pipeline. Use database primary keys, foreign keys, types and range checks as a second line of protection. Avoid cascading deletion of work history.
