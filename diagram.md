@@ -12,7 +12,7 @@ flowchart TD
     VALID["Accepted timesheets"]
     AUDIT["Validation issues<br/>Review records<br/>Rejected records"]
     TRANSFORM["transform.py<br/>Clean tables<br/>Hours by project and employee"]
-    CHECK["run.py: verify results<br/>Row accounting · unique keys · valid references<br/>Summary totals match clean hours"]
+    CHECK["validate.py: verify_outputs<br/>Row accounting · unique keys · valid references<br/>Summary totals match clean hours"]
     OUTPUT["run.py: write outputs<br/>Overwrite fixed CSV files<br/>Print validation summary"]
     ERROR["Stop with a clear error<br/>Fix the problem and rerun"]
 
@@ -38,7 +38,7 @@ Raw input files stay unchanged. Repeated successful runs rebuild and overwrite t
 
 Review records need a source correction or an explicit business decision. Unique, valid dimension IDs with incomplete descriptive fields or uncertain budgets remain usable with null attributes and reported issues. Conflicting dimensions and all timesheet review records are excluded from clean outputs. Only accepted timesheet hours enter summaries.
 
-# Proposed relational model
+# SQLite relational model
 
 ```mermaid
 erDiagram
@@ -46,25 +46,25 @@ erDiagram
     PROJECTS ||--o{ TIMESHEETS : receives
 
     EMPLOYEES {
-        varchar employee_id PK
+        text employee_id PK
         text name "nullable"
         text role "nullable"
     }
 
     PROJECTS {
-        varchar project_id PK
+        text project_id PK
         text project_name "nullable"
         numeric budget "nullable; nonnegative when present"
     }
 
     TIMESHEETS {
-        varchar employee_id PK, FK
-        varchar project_id PK, FK
-        date work_date PK
+        text employee_id PK, FK
+        text project_id PK, FK
+        text work_date PK "ISO date: YYYY-MM-DD"
         numeric hours "greater than 0 and at most 24"
     }
 ```
 
 Each timesheet belongs to exactly one employee and one project; an employee or project can have zero timesheets. The three `PK` fields in `TIMESHEETS` form a single composite key, assuming one entry per employee/project/day. If multiple entries are legitimate, use a stable source entry ID instead.
 
-The ER diagram describes the proposed clean schema. Review/rejected records and validation issues are separate CSV audit outputs. The assessment delivers schema definitions; operating a database is not required.
+The ER diagram uses the types in `schema.sql`. Dates are stored as ISO text; calendar validity is checked in Python. Review/rejected records and validation issues are separate CSV audit outputs. The assessment delivers schema definitions; operating a database is not required.

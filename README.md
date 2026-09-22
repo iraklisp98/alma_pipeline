@@ -46,7 +46,7 @@ The stages pass DataFrames explicitly. Validation has no filesystem side effects
 
 Missing employee descriptions and uncertain project budgets do **not** block otherwise valid work. Weekend work and days above 12 but at most 24 hours are not automatically errors. Positive-only hours assume ordinary work entries, not negative corrections. The date interpretation and one-entry-per-day grain require source-owner confirmation; multiple legitimate entries would require a stable source entry ID.
 
-**Difference from the exploratory notebook:** its stricter preview excluded incomplete dimensions and dependent timesheets, and proposed a 12-hour review threshold. The implementation follows the subsequently simplified architecture above. Its counts therefore differ intentionally; the notebook remains the original exploration record.
+The notebook profiles raw values first, then calls the same pipeline functions to show the final rules, clean results and issue report. This keeps its final results consistent with the command-line outputs.
 
 ## Record decisions and audit outputs
 
@@ -110,7 +110,7 @@ The creation command creates empty tables; it does not import the pipeline's CSV
 
 Every run rebuilds working frames and issues from the original inputs and overwrites fixed output files; it never appends. Repeating a successful run on the same inputs produces identical CSV bytes. Checks run before export and cover row accounting, unique clean keys, valid references, positive hours, daily totals and aggregate reconciliation. Run normally, without Python's `-O` flag, which disables the internal assertions.
 
-Eight focused tests cover case-insensitive hour-word mapping, bad dates/hours/references, usable incomplete dimensions, duplicate/conflict handling, daily totals, structural CSV errors, empty clean outputs, repeatable output and the SQL schema.
+Nine focused tests cover case-insensitive hour-word mapping, database-compatible ID formats, bad dates/hours/references, usable incomplete dimensions, duplicate/conflict handling, daily totals, structural CSV errors, empty clean outputs, repeatable output and the SQL schema.
 
 An interrupted export can leave a partially refreshed output folder. Rerun after correcting the failure. For this assessment there are no concurrent writers, transaction manager, immutable run history or review application. Correct the source records using authoritative information and rerun; do not edit generated outputs.
 

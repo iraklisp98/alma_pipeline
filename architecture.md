@@ -68,7 +68,7 @@ Pass DataFrames explicitly between functions. Keep validation separate from file
 - Parse budget as a finite, nonnegative number. Flag missing, negative, nonnumeric or range-valued budgets for review and represent the clean budget as null. Do not infer a midpoint for `55000-60000`.
 - Do not enforce a role vocabulary or budget currency that was not supplied.
 
-Incomplete descriptive fields or uncertain budgets do not make an otherwise valid timesheet unusable. This is a deliberate simplification from the notebook's strict policy, which held those dependent timesheets for review. It changes the expected output counts; calculate them from the implementation rather than copying the notebook baseline.
+Incomplete descriptive fields or uncertain budgets do not make an otherwise valid timesheet unusable. The notebook profiles the raw inputs and then uses the same pipeline functions to demonstrate this final policy and its output counts.
 
 ### Timesheets
 
@@ -124,13 +124,13 @@ Aggregate only accepted timesheets. Group by IDs, then join dimension labels wit
 
 Export dates as `YYYY-MM-DD`, sort by stable keys, and check that both summaries reconcile to the clean timesheet total. The supplied hours are integers or half-hours, so pandas numeric arithmetic is sufficient here. Use SQL `NUMERIC` for the proposed database schema and discuss precision if future data requires it. Do not calculate costs or budget utilization without rates and currency.
 
-## Proposed relational schema
+## SQLite relational schema
 
 | Table | Fields and constraints |
 |---|---|
-| `employees` | `employee_id VARCHAR(4) PRIMARY KEY`, `name TEXT NULL`, `role TEXT NULL`. |
-| `projects` | `project_id VARCHAR(4) PRIMARY KEY`, `project_name TEXT NULL`, `budget NUMERIC NULL CHECK (budget >= 0)`. |
-| `timesheets` | `employee_id VARCHAR(4) NOT NULL REFERENCES employees(employee_id)`, `project_id VARCHAR(4) NOT NULL REFERENCES projects(project_id)`, `work_date DATE NOT NULL`, `hours NUMERIC NOT NULL CHECK (hours > 0 AND hours <= 24)`. Composite primary key: `(employee_id, project_id, work_date)`. |
+| `employees` | `employee_id TEXT PRIMARY KEY`, `name TEXT NULL`, `role TEXT NULL`. |
+| `projects` | `project_id TEXT PRIMARY KEY`, `project_name TEXT NULL`, `budget NUMERIC NULL CHECK (budget >= 0)`. |
+| `timesheets` | `employee_id TEXT NOT NULL REFERENCES employees(employee_id)`, `project_id TEXT NOT NULL REFERENCES projects(project_id)`, `work_date TEXT NOT NULL (ISO date)`, `hours NUMERIC NOT NULL CHECK (hours > 0 AND hours <= 24)`. Composite primary key: `(employee_id, project_id, work_date)`. |
 
 Nullable descriptive fields and budget represent known data-quality gaps; the issue report records why they are missing. Require valid ID formats and reject nonfinite numeric values in the pipeline. Use database primary keys, foreign keys, types and range checks as a second line of protection. Avoid cascading deletion of work history.
 
