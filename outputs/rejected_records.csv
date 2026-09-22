@@ -1,0 +1,18 @@
+source_table,source_record,employee_id,name,role,status,include_in_clean,project_id,project_name,budget,date,hours
+employees,11,E001,Sarah Okonkwo,Data Engineer,rejected,False,,,,,
+employees,32,E014,Anouk Vermeer,Data Scientist,rejected,False,,,,,
+projects,11,,,,rejected,False,P001,Alpha Platform Rebuild,120000,,
+projects,15,,,,rejected,False,,Unnamed Initiative,50000,,
+projects,21,,,,rejected,False,P007,ML Forecasting Pipeline,95000,,
+projects,34,,,,rejected,False,P026,Experimentation Platform,67000,,
+timesheets,7,E005,,,rejected,False,P007,,,08/01/2024,9
+timesheets,57,E099,,,rejected,False,P001,,,25/01/2024,8
+timesheets,58,E010,,,rejected,False,P999,,,28/01/2024,7.5
+timesheets,62,E014,,,rejected,False,P007,,,29/01/2024,-3
+timesheets,68,E020,,,rejected,False,P003,,,30/01/2024,25
+timesheets,160,E001,,,rejected,False,P001,,,11/03/2024,7.5
+timesheets,172,,,,rejected,False,P001,,,17/03/2024,8
+timesheets,201,E050,,,rejected,False,P001,,,31/03/2024,8
+timesheets,202,E001,,,rejected,False,P999,,,31/03/2024,6
+timesheets,203,E005,,,rejected,False,P007,,,31/03/2024,
+timesheets,273,E020,,,rejected,False,P003,,,01/05/2024,not_a_number

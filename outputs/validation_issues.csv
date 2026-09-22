@@ -1,0 +1,24 @@
+source_table,source_record,column,raw_value,rule,status,reason
+employees,11,employee_id,E001,duplicate_record,rejected,Identical normalized record; retain first source record.
+employees,14,name,,missing_description,review,Keep identifiable record with a null attribute; request correction.
+employees,22,role,,missing_description,review,Keep identifiable record with a null attribute; request correction.
+employees,32,employee_id,E014,duplicate_record,rejected,Identical normalized record; retain first source record.
+projects,8,budget,55000-60000,invalid_budget,review,Budget must be a finite nonnegative scalar; use null until corrected.
+projects,11,project_id,P001,duplicate_record,rejected,Identical normalized record; retain first source record.
+projects,14,project_name,,missing_description,review,Keep identifiable record with a null attribute; request correction.
+projects,15,project_id,,invalid_id,rejected,Missing identifier or invalid format; expected prefix plus three digits.
+projects,21,project_id,P007,duplicate_record,rejected,Identical normalized record; retain first source record.
+projects,22,budget,-5000,invalid_budget,review,Budget must be a finite nonnegative scalar; use null until corrected.
+projects,34,project_id,P026,duplicate_record,rejected,Identical normalized record; retain first source record.
+projects,36,budget,,invalid_budget,review,Budget must be a finite nonnegative scalar; use null until corrected.
+timesheets,7,hours,9,duplicate_record,rejected,Identical parsed entry; retain first source record.
+timesheets,57,employee_id,E099,unknown_reference,rejected,Identifier is absent from the source dimension.
+timesheets,58,project_id,P999,unknown_reference,rejected,Identifier is absent from the source dimension.
+timesheets,62,hours,-3,invalid_hours,rejected,Require finite numeric hours with 0 < hours <= 24.
+timesheets,68,hours,25,invalid_hours,rejected,Require finite numeric hours with 0 < hours <= 24.
+timesheets,160,hours,7.5,duplicate_record,rejected,Identical parsed entry; retain first source record.
+timesheets,172,employee_id,,invalid_id,rejected,Missing identifier or invalid format; expected prefix plus three digits.
+timesheets,201,employee_id,E050,unknown_reference,rejected,Identifier is absent from the source dimension.
+timesheets,202,project_id,P999,unknown_reference,rejected,Identifier is absent from the source dimension.
+timesheets,203,hours,,invalid_hours,rejected,Require finite numeric hours with 0 < hours <= 24.
+timesheets,273,hours,not_a_number,invalid_hours,rejected,Require finite numeric hours with 0 < hours <= 24.

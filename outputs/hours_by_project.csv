@@ -1,0 +1,22 @@
+project_id,project_name,total_hours,timesheet_count
+P001,Alpha Platform Rebuild,191.0,25
+P002,Data Warehouse Migration,107.0,14
+P003,Customer Portal v2,141.0,20
+P004,Internal Analytics Dashboard,80.5,19
+P005,Mobile App Launch,132.5,18
+P006,Legacy System Decommission,98.5,13
+P007,ML Forecasting Pipeline,310.0,38
+P008,API Gateway Consolidation,113.5,15
+P009,Compliance Reporting Tool,100.5,14
+P010,Data Catalogue Implementation,129.0,18
+P012,Real-Time Alerting System,29.5,4
+P015,Self-Serve BI Rollout,39.5,10
+P018,Event Streaming Platform,84.5,12
+P020,Product Recommendation Engine,118.5,16
+P023,Data Mesh Pilot,99.5,13
+P025,Search Relevance Improvement,106.5,15
+P026,Experimentation Platform,125.5,18
+P029,Observability Stack,70.0,9
+P030,Feature Store Build-Out,109.0,15
+P031,Customer Churn Model,114.5,14
+P035,Cross-Sell Recommendation,89.5,12

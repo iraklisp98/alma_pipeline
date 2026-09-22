@@ -1,0 +1,7 @@
+source_table,source_record,employee_id,name,role,status,include_in_clean,project_id,project_name,budget,date,hours
+employees,14,E013,,Data Analyst,review,True,,,,,
+employees,22,E021,Leo Dubois,,review,True,,,,,
+projects,8,,,,review,True,P008,API Gateway Consolidation,55000-60000,,
+projects,14,,,,review,True,P013,,15000,,
+projects,22,,,,review,True,P019,Data Quality Framework,-5000,,
+projects,36,,,,review,True,P032,Supply Chain Analytics,,,
