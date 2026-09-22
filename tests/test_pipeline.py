@@ -70,6 +70,26 @@ class PipelineTests(unittest.TestCase):
             self.assertTrue(pd.isna(frames["projects"].iloc[0]["budget_numeric"]))
             self.assertEqual(frames["timesheets"].iloc[0]["status"], "accepted")
 
+    def test_id_digits_match_sql_for_available_string_backends(self):
+        with tempfile.TemporaryDirectory() as directory:
+            self.fixture(directory, [], employees=[
+                ["E001", "Valid", "Engineer"],
+                ["E٠٠٢", "Unicode digits", "Engineer"],
+            ])
+            raw, prepared = prepare(directory)
+            storages = {"python", prepared["employees"]["employee_id"].dtype.storage}
+            for storage in storages:
+                with self.subTest(storage=storage):
+                    prepared["employees"]["employee_id"] = prepared["employees"]["employee_id"].astype(
+                        pd.StringDtype(storage=storage))
+                    frames, _ = validate(raw, prepared)
+                    self.assertEqual(frames["employees"]["status"].tolist(), ["accepted", "rejected"])
+            with sqlite3.connect(":memory:") as connection:
+                connection.executescript((ROOT / "schema.sql").read_text())
+                connection.execute("INSERT INTO employees VALUES (?, ?, ?)", ("E001", "Valid", "Engineer"))
+                with self.assertRaises(sqlite3.IntegrityError):
+                    connection.execute("INSERT INTO employees VALUES (?, ?, ?)", ("E٠٠٢", "Unicode digits", "Engineer"))
+
     def test_dimension_duplicates_and_conflicts(self):
         with tempfile.TemporaryDirectory() as directory:
             frames, issues = self.fixture(directory, [["E001", "P001", "01/01/2024", "8"]],

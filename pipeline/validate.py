@@ -32,7 +32,7 @@ def validate(raw, prepared):
     for table, frame in frames.items():
         for column in [c for c in COLUMNS[table] if c.endswith("_id")]:
             prefix = "E" if column == "employee_id" else "P"
-            flag(table, ~frame[column].str.fullmatch(prefix + r"\d{3}", na=False), column,
+            flag(table, ~frame[column].str.fullmatch(prefix + r"[0-9]{3}", na=False), column,
                  "invalid_id", "rejected", "Missing identifier or invalid format; expected prefix plus three digits.")
 
     for table, key, descriptions in [("employees", "employee_id", ["name", "role"]),
